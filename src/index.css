@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-secondary: #435b9f;
+  --color-on-error: #ffffff;
+  --color-on-primary-container: #8480ff;
+  --color-on-secondary-container: #2a4486;
+  --color-inverse-primary: #c3c0ff;
+  --color-surface-container-high: #e2e7ff;
+  --color-on-primary-fixed-variant: #3323cc;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-background: #131b2e;
+  --color-on-tertiary-container: #00a371;
+  --color-secondary-fixed: #dbe1ff;
+  --color-surface-container-low: #f2f3ff;
+  --color-on-tertiary: #ffffff;
+  --color-secondary-fixed-dim: #b3c5ff;
+  --color-background: #faf8ff;
+  --color-tertiary-fixed-dim: #4edea3;
+  --color-inverse-surface: #283044;
+  --color-secondary-container: #9cb4fe;
+  --color-on-tertiary-fixed: #002113;
+  --color-tertiary: #00180d;
+  --color-on-primary: #ffffff;
+  --color-on-tertiary-fixed-variant: #005236;
+  --color-primary-container: #18008f;
+  --color-outline: #757682;
+  --color-primary-fixed: #e2dfff;
+  --color-surface-bright: #faf8ff;
+  --color-surface-container: #eaedff;
+  --color-surface-variant: #dae2fd;
+  --color-on-secondary: #ffffff;
+  --color-tertiary-container: #002f1e;
+  --color-error-container: #ffdad6;
+  --color-on-primary-fixed: #0f0069;
+  --color-surface-dim: #d2d9f4;
+  --color-on-surface-variant: #444650;
+  --color-on-error-container: #93000a;
+  --color-primary-fixed-dim: #c3c0ff;
+  --color-surface: #faf8ff;
+  --color-surface-tint: #4d44e3;
+  --color-surface-container-highest: #dae2fd;
+  --color-on-secondary-fixed: #00174a;
+  --color-on-secondary-fixed-variant: #2a4386;
+  --color-outline-variant: #c5c6d2;
+  --color-error: #ba1a1a;
+  --color-on-surface: #131b2e;
+  --color-tertiary-fixed: #6ffbbe;
+  --color-primary: #090054;
+  --color-inverse-on-surface: #eef0ff;
+
+  --font-headline: "Manrope", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-label: "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6, .font-headline {
+  font-family: var(--font-headline);
+}
