@@ -21,7 +21,13 @@ import {
   Quote,
   CloudCog,
   BrainCircuit,
-  CheckCircle2
+  CheckCircle2,
+  Timer,
+  Layers,
+  Bot,
+  Database,
+  Shield,
+  Gift
 } from 'lucide-react';
 
 function Navbar() {
@@ -262,30 +268,105 @@ function SocialProof() {
   );
 }
 
-function CTA() {
+function OfferSection() {
   return (
-    <section className="py-32 px-8 bg-surface">
-      <div className="max-w-5xl mx-auto bg-surface-container-low rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-64 h-64 bg-tertiary-fixed/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl"></div>
-        <h2 className="text-4xl lg:text-5xl font-extrabold text-primary mb-6 tracking-tight relative">Ready to Close the Loop?</h2>
-        <p className="text-xl text-on-surface-variant mb-12 max-w-2xl mx-auto relative">
-          Stop losing 30% of your revenue to avoidable churn. Get your first 30 days of autonomous retention for <span className="text-primary font-bold">$300</span>.
-        </p>
-        <div className="flex flex-col items-center gap-6 relative">
-          <button className="bg-gradient-to-r from-primary to-primary-container text-on-primary px-12 py-5 rounded-xl text-xl font-bold shadow-2xl hover:scale-105 transition-all w-full md:w-auto">
-            Deploy My Loyalty Agent
-          </button>
-          <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-on-surface-variant/80 font-medium">
-            <span className="flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4 text-tertiary-fixed-variant" />
-              No long-term contracts
-            </span>
-            <span className="hidden sm:inline">•</span>
-            <span className="flex items-center gap-1">
-              <TrendingUp className="w-4 h-4 text-tertiary-fixed-variant" />
-              2% attribution-only performance fee
-            </span>
+    <section className="py-32 px-8 bg-surface relative">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-error-container text-on-error-container font-bold text-sm mb-6 uppercase tracking-widest animate-pulse">
+            <Timer className="w-4 h-4" />
+            Only 10 Beta Spots Available
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-extrabold text-primary mb-6 tracking-tight">
+            The "Founding Founder" Retention Bundle
+          </h2>
+          <p className="text-xl text-on-surface-variant max-w-2xl mx-auto">
+            Exclusive to the first 10 Shopify Plus Merchants. Maximize your retention with our indisputable value stack.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-5 gap-8 items-start">
+          {/* Left Column: Value Stack & Bonuses */}
+          <div className="lg:col-span-3 space-y-8">
+            <div className="bg-surface-container-low p-8 lg:p-10 rounded-[2.5rem]">
+              <h3 className="text-2xl font-bold text-primary mb-8 flex items-center gap-3">
+                <Layers className="w-7 h-7 text-tertiary-fixed-variant" />
+                The Indisputable Bundle
+              </h3>
+              <div className="space-y-8">
+                <div className="flex gap-5">
+                  <div className="mt-1 bg-tertiary-container p-3 rounded-xl h-fit">
+                    <Bot className="w-6 h-6 text-tertiary-fixed" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-primary text-xl mb-1">The Agent</h4>
+                    <p className="text-on-surface-variant leading-relaxed">24/7 Autonomous Sentiment Monitoring & Auto-Remediation <span className="text-tertiary-fixed-variant font-semibold">(Value: $1,500/mo)</span></p>
+                  </div>
+                </div>
+                <div className="flex gap-5">
+                  <div className="mt-1 bg-primary-fixed p-3 rounded-xl h-fit">
+                    <Database className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-primary text-xl mb-1">The Infrastructure</h4>
+                    <p className="text-on-surface-variant leading-relaxed">Professional Salesforce-to-Shopify RevOps Sync—ensuring every AI action is logged in your CRM.</p>
+                  </div>
+                </div>
+                <div className="flex gap-5">
+                  <div className="mt-1 bg-secondary-fixed p-3 rounded-xl h-fit">
+                    <Shield className="w-6 h-6 text-on-secondary-container" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-primary text-xl mb-1">The Security Shield</h4>
+                    <p className="text-on-surface-variant leading-relaxed">A GCP-backed Security Perimeter audit ensuring all AI interactions are PII-redacted and compliant.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-surface-container-low p-8 lg:p-10 rounded-[2.5rem]">
+              <h3 className="text-2xl font-bold text-primary mb-8 flex items-center gap-3">
+                <Gift className="w-7 h-7 text-tertiary-fixed-variant" />
+                Irresistible Bonuses
+              </h3>
+              <ul className="space-y-6">
+                <li className="flex items-start gap-4">
+                  <CheckCircle2 className="w-6 h-6 text-tertiary-fixed-variant shrink-0 mt-0.5" />
+                  <span className="text-on-surface-variant leading-relaxed"><strong className="text-primary">Bonus #1: The "Churn Risk" Template Library.</strong> Pre-built sentiment triggers for the top 25 e-commerce friction points.</span>
+                </li>
+                <li className="flex items-start gap-4">
+                  <CheckCircle2 className="w-6 h-6 text-tertiary-fixed-variant shrink-0 mt-0.5" />
+                  <span className="text-on-surface-variant leading-relaxed"><strong className="text-primary">Bonus #2: White-Glove "Agentforce" Setup.</strong> We personally configure your Salesforce actions to ensure the loop is seamless.</span>
+                </li>
+                <li className="flex items-start gap-4">
+                  <CheckCircle2 className="w-6 h-6 text-tertiary-fixed-variant shrink-0 mt-0.5" />
+                  <span className="text-on-surface-variant leading-relaxed"><strong className="text-primary">Bonus #3: Monthly Retention ROI Report.</strong> A technical deep-dive on how much "silent churn" was prevented each month.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Right Column: Pricing Card */}
+          <div className="lg:col-span-2 bg-surface-container-lowest p-8 lg:p-10 rounded-[2.5rem] shadow-[0_24px_48px_-12px_rgba(19,27,46,0.08)] border border-outline-variant/15 relative overflow-hidden sticky top-32">
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary to-tertiary-fixed"></div>
+            <h3 className="text-sm font-bold text-outline uppercase tracking-widest mb-2">The "Autonomous Specialist" Tier</h3>
+            <div className="flex items-baseline gap-2 mb-6">
+              <span className="text-6xl font-extrabold text-primary">$300</span>
+              <span className="text-xl text-on-surface-variant font-medium">/mo</span>
+            </div>
+            <div className="inline-flex items-center gap-2 bg-tertiary-container/20 text-tertiary-fixed-variant px-4 py-2 rounded-lg font-bold mb-8 border border-tertiary-fixed/30">
+              <TrendingUp className="w-5 h-5" />
+              + 2% of Recovered Revenue
+            </div>
+            
+            <button className="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-5 rounded-xl text-lg font-bold shadow-xl hover:scale-[1.02] transition-all mb-6">
+              Claim 1 of 10 Beta Spots
+            </button>
+            
+            <div className="bg-surface-container-high p-5 rounded-2xl text-sm text-on-surface-variant text-center">
+              <span className="font-bold text-primary block mb-2 text-base">🔥 The Q2 Retention Lock-In</span>
+              Deploy by Friday to get a free <strong className="text-primary">Historical Churn Audit</strong> (a $1,000 value).
+            </div>
           </div>
         </div>
       </div>
@@ -321,7 +402,7 @@ export default function App() {
         <ValueProposition />
         <Features />
         <SocialProof />
-        <CTA />
+        <OfferSection />
       </main>
       <Footer />
     </div>
