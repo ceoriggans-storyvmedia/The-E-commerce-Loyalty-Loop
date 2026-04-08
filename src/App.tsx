@@ -45,21 +45,28 @@ import {
   ExternalLink,
   Flag,
   Globe,
-  Share2
+  Share2,
+  ArrowRight,
+  Cloud,
+  ShoppingBag,
+  Building2,
+  ChevronLeft
 } from 'lucide-react';
 
 function Navbar() {
+  const { pathname } = useLocation();
+
   return (
     <nav className="fixed top-0 w-full z-50 bg-[#faf8ff]/70 dark:bg-[#131b2e]/70 backdrop-blur-xl shadow-[0_24px_48px_-12px_rgba(19,27,46,0.08)]">
       <div className="flex justify-between items-center max-w-7xl mx-auto px-8 py-4">
-        <Link to="/" className="text-2xl font-extrabold text-[#090054] dark:text-[#ffffff] tracking-tighter">
+        <Link to="/" onClick={() => window.scrollTo(0, 0)} className="text-2xl font-extrabold text-[#090054] dark:text-[#ffffff] tracking-tighter">
           The E-commerce Loyalty Loop
         </Link>
         <div className="hidden md:flex items-center space-x-8 font-headline font-semibold tracking-tight">
-          <a className="text-[#131b2e]/60 hover:text-[#090054] transition-all duration-300" href="#">Platform</a>
-          <a className="text-[#131b2e]/60 hover:text-[#090054] transition-all duration-300" href="#">Solutions</a>
-          <a className="text-[#131b2e]/60 hover:text-[#090054] transition-all duration-300" href="#">Case Studies</a>
-          <a className="text-[#131b2e]/60 hover:text-[#090054] transition-all duration-300" href="#">Pricing</a>
+          <Link to="/platform" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/platform' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#131b2e]/60 hover:text-[#090054]'}`}>Platform</Link>
+          <Link to="/solutions" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/solutions' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#131b2e]/60 hover:text-[#090054]'}`}>Solutions</Link>
+          <Link to="/case-studies" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/case-studies' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#131b2e]/60 hover:text-[#090054]'}`}>Case Studies</Link>
+          <Link to="/pricing" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/pricing' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#131b2e]/60 hover:text-[#090054]'}`}>Pricing</Link>
         </div>
         <div className="flex items-center space-x-4">
           <button className="text-[#131b2e]/60 font-semibold hover:opacity-80 transition-all">Log In</button>
@@ -409,14 +416,14 @@ function Footer() {
         </div>
         <div className="flex flex-col gap-4">
           <h5 className="text-primary font-bold text-sm uppercase tracking-widest mb-2">Legal & Trust</h5>
-          <Link className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/privacy">Privacy Policy</Link>
-          <Link className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/terms">Terms of Service</Link>
+          <Link onClick={() => window.scrollTo(0, 0)} className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/privacy">Privacy Policy</Link>
+          <Link onClick={() => window.scrollTo(0, 0)} className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/terms">Terms of Service</Link>
           <a className="text-on-surface-variant text-sm hover:text-primary transition-colors" href="#">Security</a>
-          <Link className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/cookies">Cookie Settings</Link>
+          <Link onClick={() => window.scrollTo(0, 0)} className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/cookies">Cookie Settings</Link>
         </div>
         <div className="flex flex-col gap-4">
           <h5 className="text-primary font-bold text-sm uppercase tracking-widest mb-2">Stay Connected</h5>
-          <Link className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/contact">Contact Support</Link>
+          <Link onClick={() => window.scrollTo(0, 0)} className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/contact">Contact Support</Link>
           <p className="text-on-surface-variant text-xs mb-2">Join our monthly intelligence dispatch.</p>
           <div className="flex gap-2">
             <input className="bg-surface-container-low border-0 text-sm px-4 py-2 rounded-lg focus:ring-2 focus:ring-primary w-full outline-none" placeholder="Email" type="email" />
@@ -1064,6 +1071,730 @@ function ContactSupport() {
   );
 }
 
+function Platform() {
+  return (
+    <main className="pt-20">
+      {/* Hero Section: The Autonomous Employee */}
+      <section className="relative overflow-hidden bg-surface py-24 px-8 lg:py-32">
+        <div className="max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-7 z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-xs font-bold mb-6">
+              <span className="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+              ARCHITECTURE V2.4 IS LIVE
+            </div>
+            <h1 className="font-headline text-5xl lg:text-7xl font-extrabold text-primary tracking-tighter leading-[1.1] mb-8">
+              The Autonomous Employee for <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Modern RevOps.</span>
+            </h1>
+            <p className="text-on-surface-variant text-xl max-w-2xl leading-relaxed mb-10">
+              Move beyond automation. Deploy self-governing AI agents that analyze emotional sentiment, bridge loyalty gaps, and manage your entire revenue lifecycle with architectural precision.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <button className="bg-primary text-white px-8 py-4 rounded-md font-semibold flex items-center gap-2 active:scale-95 transition-all">
+                Explore the Stack
+                <ArrowRight className="w-5 h-5" />
+              </button>
+              <button className="bg-surface-container-high text-primary px-8 py-4 rounded-md font-semibold active:scale-95 transition-all">
+                Watch the Core Logic
+              </button>
+            </div>
+          </div>
+          <div className="lg:col-span-5 relative">
+            <div className="aspect-square rounded-full bg-primary/5 absolute -top-20 -right-20 blur-3xl w-full"></div>
+            <div className="relative rounded-2xl overflow-hidden bg-surface-container-lowest shadow-[0_24px_48px_-12px_rgba(19,27,46,0.08)] p-4 border border-outline-variant/15">
+              <img alt="AI Core Visualization" className="rounded-xl w-full h-[500px] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpXw35Y0cycASerMCytEp6b-9K-O-JogIp_zHdmj7Ya0R7eR0vuPOEnDhUt7cruGJ_Xsaec32Ay21n_57B_vq-C-KPVD5G6g8hovtOQ9CYrC-2GXHug5NA_HVZ_pgI-2qlwuW73QznJAdYfnYPozDcukvCjPWwVQNpEtItC3Jg3CWFOFu_YRYz7BZohUWX4d8QVrnyTcTdAoAp53DVRo0tdsRUuFm0l_-YWzA2YreUkZDZ9T9dfHLOS-9-IIwqlYj4yssCJ_AUePw" referrerPolicy="no-referrer" />
+              <div className="absolute bottom-10 left-10 right-10 bg-white/70 backdrop-blur-xl p-6 rounded-xl border border-white/20">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-bold text-primary tracking-widest uppercase">Sentiment Pulse</span>
+                  <div className="flex gap-1">
+                    <div className="w-1 h-4 bg-tertiary-fixed rounded-full"></div>
+                    <div className="w-1 h-6 bg-tertiary-fixed rounded-full"></div>
+                    <div className="w-1 h-3 bg-tertiary-fixed rounded-full"></div>
+                  </div>
+                </div>
+                <div className="text-2xl font-bold text-primary mb-1">98.4% Confidence</div>
+                <p className="text-sm text-on-surface-variant">Real-time emotional alignment across 1.2M touchpoints.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The Three Pillars: Bento Grid */}
+      <section className="py-24 px-8 bg-surface-container-low">
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="mb-16">
+            <h2 className="font-headline text-4xl font-bold text-primary tracking-tight mb-4">Core Intelligence Layer</h2>
+            <p className="text-on-surface-variant text-lg max-w-3xl">Our platform operates on three distinct neural layers designed to transform reactive commerce into proactive intelligence.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            {/* Autonomous AI Agents */}
+            <div className="md:col-span-8 bg-surface-container-lowest p-10 rounded-2xl border-l-[6px] border-tertiary-fixed flex flex-col justify-between shadow-sm">
+              <div>
+                <div className="bg-surface-container-high w-12 h-12 rounded-xl flex items-center justify-center mb-6">
+                  <Bot className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="font-headline text-3xl font-bold text-primary mb-4">Autonomous AI Agents</h3>
+                <p className="text-on-surface-variant text-lg leading-relaxed max-w-xl">
+                  Agents that don't just follow scripts—they achieve objectives. Trained on your unique business logic, these agents manage complex customer negotiations and account health without human intervention.
+                </p>
+              </div>
+              <div className="mt-8 flex gap-4 overflow-x-auto pb-4">
+                <span className="bg-surface-container px-4 py-2 rounded-lg text-xs font-semibold text-primary whitespace-nowrap">Dynamic Goal Setting</span>
+                <span className="bg-surface-container px-4 py-2 rounded-lg text-xs font-semibold text-primary whitespace-nowrap">Cross-Channel Execution</span>
+                <span className="bg-surface-container px-4 py-2 rounded-lg text-xs font-semibold text-primary whitespace-nowrap">Policy Enforcement</span>
+              </div>
+            </div>
+
+            {/* Emotional Sentiment */}
+            <div className="md:col-span-4 bg-primary p-10 rounded-2xl text-white flex flex-col justify-between overflow-hidden relative">
+              <div className="relative z-10">
+                <h3 className="font-headline text-2xl font-bold mb-4">Sentiment Engine</h3>
+                <p className="text-white/80 text-sm leading-relaxed">
+                  Moving beyond 'Positive' or 'Negative'. We detect frustration, urgency, and brand affinity through tonal analysis of voice and text.
+                </p>
+              </div>
+              <div className="mt-8 bg-white/10 p-4 rounded-xl backdrop-blur-md relative z-10">
+                <div className="flex justify-between items-center text-xs mb-2">
+                  <span>Ambivalence Detection</span>
+                  <span className="text-tertiary-fixed">Active</span>
+                </div>
+                <div className="w-full bg-white/20 h-1 rounded-full">
+                  <div className="bg-tertiary-fixed h-full rounded-full" style={{ width: '75%' }}></div>
+                </div>
+              </div>
+              <Brain className="absolute -bottom-10 -right-10 w-64 h-64 text-white/5" />
+            </div>
+
+            {/* Loyalty Bridge */}
+            <div className="md:col-span-5 bg-surface-container-high p-10 rounded-2xl flex flex-col justify-between">
+              <div>
+                <h3 className="font-headline text-2xl font-bold text-primary mb-4">The 'Loyalty Bridge'</h3>
+                <p className="text-on-surface-variant text-sm leading-relaxed mb-6">
+                  Proprietary logic that identifies the exact gap between current satisfaction and long-term retention, then generates a custom offer to bridge it.
+                </p>
+              </div>
+              <img alt="Data Logic Visualization" className="rounded-xl w-full h-40 object-cover grayscale opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEW0qEXsQigIoHriarehF4K1d9EbGiHVQWsbqppFiz_km1LsBuGVeUewtlq6nv6yArStrola6wTphKYyw8bY2MRO0WmEe065fxJMTVUvniqlFcFt-iPCysMx8oKw8ubJ4UPSB4zijbdfg353B5tzQdZzhP_yp1WtgeSpMEu8ViT6sN1om3rkni5ThJ13rG5wi3ReeWYqavzNEcXTAvuFyWN1FamVBPuhh0MVIYiXbOK1WXyh53_p8isV-oqv8iDEZprGq5uUwyHuY" referrerPolicy="no-referrer" />
+            </div>
+
+            {/* Tech Stack Integration */}
+            <div className="md:col-span-7 bg-surface-container-lowest p-10 rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden">
+              <div className="flex flex-col h-full justify-between">
+                <div>
+                  <h3 className="font-headline text-2xl font-bold text-primary mb-4">Architectural Integrity</h3>
+                  <p className="text-on-surface-variant text-sm leading-relaxed mb-8">
+                    Built on the foundations of Salesforce and Google Cloud. We don't replace your stack; we provide the autonomous layer that makes it intelligent.
+                  </p>
+                </div>
+                <div className="flex items-center gap-12 grayscale opacity-60">
+                  <div className="flex flex-col items-center gap-2">
+                    <Cloud className="w-10 h-10" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Google Cloud</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Database className="w-10 h-10" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Salesforce CRM</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Network className="w-10 h-10" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Vertex AI</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Technical Deep Dive */}
+      <section className="py-24 px-8 bg-surface">
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+            <div>
+              <h2 className="font-headline text-4xl font-bold text-primary mb-8">How it works: The Intelligence Cycle</h2>
+              <div className="space-y-12">
+                <div className="flex gap-6">
+                  <div className="flex-none w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">1</div>
+                  <div>
+                    <h4 className="font-headline text-xl font-bold text-primary mb-2">Ingestion & Vectorization</h4>
+                    <p className="text-on-surface-variant leading-relaxed">We sync with Salesforce Data Cloud in real-time, converting structured and unstructured data into semantic vectors for our AI agents to process.</p>
+                  </div>
+                </div>
+                <div className="flex gap-6">
+                  <div className="flex-none w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">2</div>
+                  <div>
+                    <h4 className="font-headline text-xl font-bold text-primary mb-2">Sentiment Profiling</h4>
+                    <p className="text-on-surface-variant leading-relaxed">Google Cloud's Natural Language API works in tandem with our proprietary Emotional Engine to score every interaction based on churn risk and emotional state.</p>
+                  </div>
+                </div>
+                <div className="flex gap-6">
+                  <div className="flex-none w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">3</div>
+                  <div>
+                    <h4 className="font-headline text-xl font-bold text-primary mb-2">The Loyalty Bridge Execution</h4>
+                    <p className="text-on-surface-variant leading-relaxed">Agents cross-reference customer LTV with sentiment scores to trigger hyper-personalized loyalty offers, automatically closing the gap before the human team is even notified.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-surface-container-high rounded-3xl p-12 flex items-center justify-center relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent"></div>
+              <div className="relative w-full">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+                    <div className="text-tertiary-fixed-variant font-bold text-3xl mb-1">4.2x</div>
+                    <div className="text-on-surface-variant text-xs uppercase tracking-widest font-bold">LTV Velocity</div>
+                  </div>
+                  <div className="bg-white p-6 rounded-2xl shadow-sm border border-outline-variant/10">
+                    <div className="text-primary font-bold text-3xl mb-1">0.12s</div>
+                    <div className="text-on-surface-variant text-xs uppercase tracking-widest font-bold">Inference Latency</div>
+                  </div>
+                  <div className="col-span-2 bg-primary text-white p-8 rounded-2xl">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                        <Zap className="w-6 h-6 text-tertiary-fixed" />
+                      </div>
+                      <h5 className="font-bold">Automated Resolution</h5>
+                    </div>
+                    <p className="text-white/70 text-sm">Our agents handle 84% of retention escalations autonomously, freeing your CSMs for high-value strategic growth.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-8">
+        <div className="max-w-screen-xl mx-auto bg-gradient-to-br from-primary to-primary-container rounded-[2rem] p-12 lg:p-20 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
+          <div className="relative z-10 max-w-2xl mx-auto">
+            <h2 className="font-headline text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-6">Ready to deploy your first Autonomous Employee?</h2>
+            <p className="text-white/80 text-lg mb-10 leading-relaxed">Join the top tier of enterprise RevOps teams leveraging The Loyalty Loop to scale emotional intelligence at machine speed.</p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <button className="bg-tertiary-fixed text-on-tertiary-fixed px-10 py-4 rounded-md font-bold active:scale-95 transition-all">Request Technical Demo</button>
+              <button className="bg-white/10 text-white border border-white/20 backdrop-blur-md px-10 py-4 rounded-md font-bold active:scale-95 transition-all">Read Documentation</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function Solutions() {
+  return (
+    <main className="pt-20">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-24 px-8 max-w-screen-2xl mx-auto">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-7 z-10">
+            <span className="inline-flex items-center gap-2 px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-xs font-bold mb-6 tracking-wider uppercase">
+              <span className="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+              Architectural Intelligence
+            </span>
+            <h1 className="text-6xl md:text-7xl font-headline font-extrabold text-primary leading-[1.1] tracking-tighter mb-8">
+              Precision Commerce <br />
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">Growth Engines.</span>
+            </h1>
+            <p className="text-xl text-on-surface-variant max-w-2xl mb-10 leading-relaxed">
+              Data is a living landscape. We provide the architectural intelligence required to transform transactional data into enduring customer relationships across every segment of the market.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <button className="bg-primary text-on-primary px-8 py-4 rounded-md font-bold shadow-lg shadow-primary/20 transition-all hover:translate-y-[-2px]">
+                Explore Enterprise RevOps
+              </button>
+              <button className="bg-surface-container-low text-primary px-8 py-4 rounded-md font-bold transition-all hover:bg-surface-container-high">
+                View Case Studies
+              </button>
+            </div>
+          </div>
+          <div className="lg:col-span-5 relative">
+            <div className="aspect-square bg-surface-container rounded-full absolute -top-12 -right-12 w-full h-full -z-10 opacity-50"></div>
+            <img alt="AI Visualization" className="rounded-3xl shadow-2xl object-cover aspect-[4/5] transform lg:rotate-3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9_EmsDJLZ5fjZ3KFMETovD4LE6EDzGdqAK2uz1sL2iVY4_zGTBqdJ9e3IUj6vxSbJXSQZXUR6HOiWlO13m6atHH_WiTxBEP08MCd2z4F40C_1AqG1-SN5zAm_vE6bhK-QYnYmrfjYWjJGzo6LjAdy-2R6XW0gDWKrXXqq79Ybtar3Y99atLumAZYxl2EDrni9_UkXg6FV9AvQzeHO9_O2BhWvENGnvItRx4wbQbh8ZVg3oLciDWpAl3tlCRn9c8bQJJHLwRSsVBM" referrerPolicy="no-referrer" />
+          </div>
+        </div>
+      </section>
+
+      {/* Segmented Solutions: Bento Grid */}
+      <section className="py-24 px-8 bg-surface-container-low">
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="mb-16">
+            <h2 className="text-4xl font-headline font-bold text-primary mb-4 tracking-tight">Tailored for Every Scale</h2>
+            <p className="text-on-surface-variant max-w-xl text-lg">Deploying specific modules designed for the unique operational complexities of your commerce stack.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Shopify Plus Merchants */}
+            <div className="md:col-span-1 bg-surface-container-lowest p-10 rounded-3xl flex flex-col justify-between transition-all hover:shadow-xl group">
+              <div>
+                <div className="w-14 h-14 bg-secondary-container rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  <ShoppingBag className="w-6 h-6 text-on-secondary-container" />
+                </div>
+                <h3 className="text-2xl font-headline font-bold text-primary mb-4">Shopify Plus</h3>
+                <p className="text-on-surface-variant mb-6 leading-relaxed">Turn transactional velocity into brand equity with native integrations and high-impact automated flows.</p>
+                <ul className="space-y-4 mb-10">
+                  <li className="flex items-center gap-3 text-sm font-semibold text-primary">
+                    <CheckCircle2 className="w-5 h-5 text-tertiary-fixed-dim" />
+                    Custom Pixel Integration
+                  </li>
+                  <li className="flex items-center gap-3 text-sm font-semibold text-primary">
+                    <CheckCircle2 className="w-5 h-5 text-tertiary-fixed-dim" />
+                    Automated Rewards Engine
+                  </li>
+                </ul>
+              </div>
+              <a className="inline-flex items-center gap-2 font-bold text-primary group-hover:gap-4 transition-all" href="#">
+                View Shopify Solutions <ArrowRight className="w-5 h-5" />
+              </a>
+            </div>
+
+            {/* Mid-Market Brands */}
+            <div className="md:col-span-1 bg-primary text-on-primary p-10 rounded-3xl flex flex-col justify-between shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-10">
+                <LineChart className="w-32 h-32" />
+              </div>
+              <div className="relative z-10">
+                <div className="w-14 h-14 bg-primary-container rounded-xl flex items-center justify-center mb-8">
+                  <TrendingUp className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-2xl font-headline font-bold mb-4">Mid-Market</h3>
+                <p className="text-on-primary/70 mb-6 leading-relaxed">Bridge the gap between raw data and actionable intelligence. Scalable infrastructure for brands ready to lead.</p>
+                <ul className="space-y-4 mb-10">
+                  <li className="flex items-center gap-3 text-sm font-semibold">
+                    <CheckCircle2 className="w-5 h-5 text-tertiary-fixed" />
+                    Predictive LTV Modeling
+                  </li>
+                  <li className="flex items-center gap-3 text-sm font-semibold">
+                    <CheckCircle2 className="w-5 h-5 text-tertiary-fixed" />
+                    Segment Cross-Pollination
+                  </li>
+                </ul>
+              </div>
+              <a className="inline-flex items-center gap-2 font-bold text-tertiary-fixed relative z-10" href="#">
+                Scale Smarter <ArrowRight className="w-5 h-5" />
+              </a>
+            </div>
+
+            {/* Enterprise RevOps */}
+            <div className="md:col-span-1 bg-surface-container-lowest p-10 rounded-3xl flex flex-col justify-between transition-all hover:shadow-xl group">
+              <div>
+                <div className="w-14 h-14 bg-surface-container-high rounded-xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
+                  <Building2 className="w-6 h-6 text-primary" />
+                </div>
+                <h3 className="text-2xl font-headline font-bold text-primary mb-4">Enterprise RevOps</h3>
+                <p className="text-on-surface-variant mb-6 leading-relaxed">Architectural data governance for global operations. Consolidate fragmented stacks into a unified source of truth.</p>
+                <ul className="space-y-4 mb-10">
+                  <li className="flex items-center gap-3 text-sm font-semibold text-primary">
+                    <CheckCircle2 className="w-5 h-5 text-tertiary-fixed-dim" />
+                    API-First Data Pipeline
+                  </li>
+                  <li className="flex items-center gap-3 text-sm font-semibold text-primary">
+                    <CheckCircle2 className="w-5 h-5 text-tertiary-fixed-dim" />
+                    Custom Governance Tiers
+                  </li>
+                </ul>
+              </div>
+              <a className="inline-flex items-center gap-2 font-bold text-primary group-hover:gap-4 transition-all" href="#">
+                Contact Enterprise Team <ArrowRight className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Specific Use Cases */}
+      <section className="py-24 px-8 max-w-screen-2xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div>
+            <h2 className="text-4xl font-headline font-bold text-primary mb-4 tracking-tight">High-Impact Playbooks</h2>
+            <p className="text-on-surface-variant text-lg">Proven architectures for the critical moments in your customer lifecycle.</p>
+          </div>
+          <div className="hidden md:flex gap-4">
+            <button className="p-3 rounded-full border border-outline-variant hover:bg-surface-container-low transition-colors">
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button className="p-3 rounded-full border border-outline-variant bg-primary text-white">
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Use Case 1 */}
+          <div className="group relative overflow-hidden rounded-3xl bg-surface-container-low border-l-[3px] border-tertiary-fixed">
+            <div className="p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-extrabold uppercase tracking-widest rounded-md">Retention AI</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
+                <span className="text-[10px] font-bold text-on-surface-variant">Live</span>
+              </div>
+              <h4 className="text-xl font-headline font-bold text-primary mb-4">Reducing Silent Churn</h4>
+              <p className="text-sm text-on-surface-variant mb-8 leading-relaxed">
+                Deploy behavioral heuristics that identify "at-risk" patterns 30 days before they lapse. Automate re-engagement without sacrificing margin.
+              </p>
+              <div className="aspect-video rounded-xl overflow-hidden mb-6 relative">
+                <img alt="Data Chart" className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVCCe3Ae2IfdwsrCoee1GsgGAWFnXNIHNyxZUvroXaf759gjkPiUsrr5ry6RfWmsZBlNyM4e1tlOB-DFjLxzzQqUnI96VfK8Uk1J5jRrptDiqiNMjFhKbmQYN9uycfMFKeveiaboqK4nLCmdGXIdPf_Y5ecQms59XYm4vwe6f0mIOy23l0S0WgVhhd0hFUtuE1rM10tUZlAMJ-XCY4t2tyWvfW3c6DGttLdwqfrEdTMfOhDyAz39vsRJ_M8C3idmmiVVHxZYT3JaY" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+              </div>
+              <button className="w-full py-3 bg-surface-container-lowest text-primary font-bold rounded-lg border border-transparent hover:border-primary/20 transition-all">
+                View Playbook
+              </button>
+            </div>
+          </div>
+
+          {/* Use Case 2 */}
+          <div className="group relative overflow-hidden rounded-3xl bg-surface-container-low border-l-[3px] border-tertiary-fixed">
+            <div className="p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-extrabold uppercase tracking-widest rounded-md">Ops Automation</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
+                <span className="text-[10px] font-bold text-on-surface-variant">Live</span>
+              </div>
+              <h4 className="text-xl font-headline font-bold text-primary mb-4">Automating Support Make-Goods</h4>
+              <p className="text-sm text-on-surface-variant mb-8 leading-relaxed">
+                Integrate Zendesk or Gorgias with your loyalty engine. Automatically issue personalized apologies and credits based on lifetime value.
+              </p>
+              <div className="aspect-video rounded-xl overflow-hidden mb-6 relative">
+                <img alt="Robotic Arm" className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9fuT8KmNT7VBcgpo_Hq2zS7PIbAnLJMe9bZhqWYzb5WHq_K4MBcdZw3jI3SxvrJDuPOvdoso1_KXi45n-MiQ3IH69ig1NClQcNfN9asaO7JyzhB1D49hcn4jDHrgaqytaUNmUI6mJX4szo5PSOrvZBfJDnAcHhBrq7roRIPywgLd8Xzk-b0EIB0ZByu4ZKtPaP86B43bMilKPpzQ7acNZ7NM1B2kSVyj_UEI4stafspGdfNCaTlf06x9VJzcYJuEP2q_BiGGT-Uk" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+              </div>
+              <button className="w-full py-3 bg-surface-container-lowest text-primary font-bold rounded-lg border border-transparent hover:border-primary/20 transition-all">
+                View Playbook
+              </button>
+            </div>
+          </div>
+
+          {/* Use Case 3 */}
+          <div className="group relative overflow-hidden rounded-3xl bg-surface-container-low border-l-[3px] border-tertiary-fixed">
+            <div className="p-8">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="px-3 py-1 bg-surface-container-highest text-primary text-[10px] font-extrabold uppercase tracking-widest rounded-md">Growth Architecture</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-dim"></span>
+                <span className="text-[10px] font-bold text-on-surface-variant">Live</span>
+              </div>
+              <h4 className="text-xl font-headline font-bold text-primary mb-4">VIP Retention</h4>
+              <p className="text-sm text-on-surface-variant mb-8 leading-relaxed">
+                Define and defend your top 1%. Use automated concierge flows and tiered access to create a "locked-in" feeling for high-value shoppers.
+              </p>
+              <div className="aspect-video rounded-xl overflow-hidden mb-6 relative">
+                <img alt="Circuit" className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlvM8ypHwqRqYF1JerpDPxZegMqMJMtScON2NjkqtTBJvlTojien5SbNrauVSMO_bkSMMqo_GkfX0kVCmVXPeFnQEtrkQwn3pBwx7QbSn2Sn2Ry7L1PiO0SFEFBBjLuPCE0tcR2iotTXszb8n485fTru7gMKu_IPLfAH-4PaZSajg-0pHKg0hzQezRoABo9HVWnxf8_YAGAE3s4-sXgeKdQC1Dqrv8x_9kJgQJIZlkKhU0txoDV4WSgK8Aw37kYx7TCT1jeJV7xsA" referrerPolicy="no-referrer" />
+                <div className="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+              </div>
+              <button className="w-full py-3 bg-surface-container-lowest text-primary font-bold rounded-lg border border-transparent hover:border-primary/20 transition-all">
+                View Playbook
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Intelligence Pulse Section */}
+      <section className="py-24 px-8 bg-surface">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-3 px-4 py-2 bg-tertiary-container rounded-full text-on-tertiary-container font-bold text-sm mb-8 relative">
+            <Zap className="w-5 h-5" />
+            Active Intelligence Layer
+            <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-2 h-2 bg-tertiary-fixed-dim rounded-full shadow-[0_0_0_rgba(78,222,163,0.4)] animate-pulse"></div>
+          </div>
+          <h2 className="text-5xl font-headline font-extrabold text-primary mb-8 tracking-tighter">Your data is speaking. <br />Are you listening?</h2>
+          <p className="text-on-surface-variant text-xl leading-relaxed mb-12">
+            Connect your stack in minutes. Our AI agents begin mapping your loyalty landscape instantly, identifying revenue leaks and expansion opportunities within 24 hours.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="flex flex-col items-center">
+              <span className="text-4xl font-extrabold text-primary mb-2">18%</span>
+              <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Avg. Churn Reduction</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-4xl font-extrabold text-primary mb-2">4.2x</span>
+              <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">ROI by Year 1</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-4xl font-extrabold text-primary mb-2">99.9%</span>
+              <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Uptime SLA</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-4xl font-extrabold text-primary mb-2">12m+</span>
+              <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Signals Processed</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-8">
+        <div className="max-w-screen-2xl mx-auto bg-primary rounded-[3rem] p-12 md:p-24 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary-container to-transparent opacity-50"></div>
+          <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-headline font-extrabold text-white mb-6 tracking-tight leading-tight">Ready to close <br />the loop?</h2>
+              <p className="text-primary-fixed text-lg mb-10 max-w-md">Schedule a technical audit with our architectural intelligence team today.</p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="bg-tertiary-fixed text-on-tertiary-fixed px-8 py-4 rounded-md font-extrabold transition-all hover:scale-105">Book a Technical Audit</button>
+                <button className="border border-primary-fixed/30 text-white px-8 py-4 rounded-md font-extrabold hover:bg-white/5">Request a Sandbox</button>
+              </div>
+            </div>
+            <div className="hidden md:block">
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-2xl">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-full bg-tertiary-fixed-dim"></div>
+                  <div>
+                    <div className="text-white font-bold">RevOps Terminal</div>
+                    <div className="text-white/40 text-xs">Awaiting Command...</div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="h-2 w-full bg-white/10 rounded-full"></div>
+                  <div className="h-2 w-3/4 bg-white/10 rounded-full"></div>
+                  <div className="h-2 w-1/2 bg-white/10 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function CaseStudies() {
+  return (
+    <main className="pt-20">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden py-24 px-8 max-w-screen-2xl mx-auto">
+        <div className="max-w-3xl">
+          <span className="inline-flex items-center gap-2 px-3 py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-xs font-bold mb-6 tracking-wider uppercase">
+            <span className="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+            Proven Impact
+          </span>
+          <h1 className="text-6xl md:text-7xl font-headline font-extrabold text-primary leading-[1.1] tracking-tighter mb-8">
+            Architectural Intelligence <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">in Action.</span>
+          </h1>
+          <p className="text-xl text-on-surface-variant max-w-2xl mb-10 leading-relaxed">
+            Discover how enterprise RevOps teams are leveraging The Loyalty Loop to transform transactional data into enduring customer relationships.
+          </p>
+        </div>
+      </section>
+
+      {/* Grid of Case Studies */}
+      <section className="py-24 px-8 bg-surface-container-low">
+        <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Card 1 */}
+          <div className="bg-surface-container-lowest p-10 rounded-3xl flex flex-col justify-between transition-all hover:shadow-xl group">
+            <div>
+              <div className="text-4xl font-extrabold text-primary mb-2">32%</div>
+              <div className="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-6">Reduction in Silent Churn</div>
+              <h3 className="text-2xl font-headline font-bold text-primary mb-4">Global Fashion Retailer</h3>
+              <p className="text-on-surface-variant mb-6 leading-relaxed">Deployed behavioral heuristics to identify at-risk patterns 30 days before lapse, automating re-engagement without sacrificing margin.</p>
+            </div>
+            <button className="inline-flex items-center gap-2 font-bold text-primary group-hover:gap-4 transition-all mt-8">
+              Read Full Study <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Card 2 */}
+          <div className="bg-primary text-on-primary p-10 rounded-3xl flex flex-col justify-between shadow-2xl relative overflow-hidden">
+            <div className="relative z-10">
+              <div className="text-4xl font-extrabold text-white mb-2">4.2x</div>
+              <div className="text-xs uppercase tracking-widest font-bold text-tertiary-fixed mb-6">LTV Velocity Increase</div>
+              <h3 className="text-2xl font-headline font-bold mb-4">Enterprise SaaS Platform</h3>
+              <p className="text-on-primary/70 mb-6 leading-relaxed">Integrated with Zendesk to automatically issue personalized apologies and credits based on lifetime value, turning detractors into promoters.</p>
+            </div>
+            <button className="inline-flex items-center gap-2 font-bold text-tertiary-fixed relative z-10 mt-8">
+              Read Full Study <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Card 3 */}
+          <div className="bg-surface-container-lowest p-10 rounded-3xl flex flex-col justify-between transition-all hover:shadow-xl group">
+            <div>
+              <div className="text-4xl font-extrabold text-primary mb-2">99%</div>
+              <div className="text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-6">VIP Retention Rate</div>
+              <h3 className="text-2xl font-headline font-bold text-primary mb-4">Luxury Beauty Brand</h3>
+              <p className="text-on-surface-variant mb-6 leading-relaxed">Defined and defended their top 1% using automated concierge flows and tiered access to create a locked-in feeling for high-value shoppers.</p>
+            </div>
+            <button className="inline-flex items-center gap-2 font-bold text-primary group-hover:gap-4 transition-all mt-8">
+              Read Full Study <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function Pricing() {
+  return (
+    <main className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+      {/* Hero Section */}
+      <section className="mb-24 text-center">
+        <div className="inline-flex items-center gap-2 bg-tertiary-container text-on-tertiary-container px-4 py-1.5 rounded-full mb-6">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary-fixed-dim opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-tertiary-fixed"></span>
+          </span>
+          <span className="text-xs font-bold tracking-wider uppercase font-label">The Intelligence Pulse</span>
+        </div>
+        <h1 className="text-5xl md:text-7xl font-headline font-extrabold tracking-tight text-primary mb-6 leading-tight">
+          Architectural Intelligence.<br />Simple, Transparent Pricing.
+        </h1>
+        <p className="text-xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+          We believe in commerce at the speed of thought. No long-term contracts. No hidden fees. Just autonomous retention that pays for itself.
+        </p>
+      </section>
+
+      {/* Pricing Bento Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-24">
+        {/* Core Offer Card */}
+        <div className="lg:col-span-7 bg-surface-container-lowest rounded-xl p-8 md:p-12 shadow-[0_24px_48px_-12px_rgba(19,27,46,0.08)] relative overflow-hidden flex flex-col justify-between">
+          <div className="relative z-10">
+            <div className="flex items-start justify-between mb-8">
+              <div>
+                <h2 className="text-3xl font-headline font-bold text-primary mb-2">The Launch Phase</h2>
+                <p className="text-on-surface-variant font-medium">First 30 days of autonomous retention</p>
+              </div>
+              <div className="text-right">
+                <span className="block text-5xl font-headline font-extrabold text-primary tracking-tighter">$300</span>
+                <span className="text-on-surface-variant text-sm font-semibold">Flat Monthly Fee</span>
+              </div>
+            </div>
+            <div className="space-y-6 mb-12">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+                  <Zap className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-headline font-bold text-lg">Instant Integration</h3>
+                  <p className="text-on-surface-variant text-sm">Connect your commerce stack and deploy AI agents within 15 minutes.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-headline font-bold text-lg">No long-term contracts</h3>
+                  <p className="text-on-surface-variant text-sm">Month-to-month commitment. Cancel anytime without architectural friction.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="bg-surface-container-low p-6 rounded-lg relative z-10 border-l-4 border-tertiary-fixed">
+            <div className="flex items-center gap-3 mb-2">
+              <Activity className="w-5 h-5 text-on-tertiary-container" />
+              <span className="font-headline font-bold text-on-tertiary-container uppercase tracking-widest text-xs">Intelligence Insight</span>
+            </div>
+            <p className="text-on-surface text-sm leading-relaxed">
+              During the Launch Phase, our AI maps your customer journey, identifying high-risk churn signals before they manifest.
+            </p>
+          </div>
+          {/* Abstract background element */}
+          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-primary-container/5 rounded-full blur-3xl"></div>
+        </div>
+
+        {/* Performance Card */}
+        <div className="lg:col-span-5 flex flex-col gap-8">
+          <div className="bg-primary text-on-primary rounded-xl p-8 flex-1 flex flex-col justify-center relative overflow-hidden">
+            <div className="relative z-10">
+              <h2 className="text-2xl font-headline font-bold mb-4">Performance-First</h2>
+              <div className="mb-6">
+                <span className="text-6xl font-headline font-extrabold tracking-tighter text-tertiary-fixed">2%</span>
+              </div>
+              <p className="text-on-primary/80 mb-6 leading-relaxed font-medium">
+                Attribution-only performance fee. We only succeed when our AI successfully retains a customer who was predicted to churn.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-center gap-2 text-sm">
+                  <CheckCircle2 className="w-5 h-5 text-tertiary-fixed" />
+                  Transparent attribution modeling
+                </li>
+                <li className="flex items-center gap-2 text-sm">
+                  <CheckCircle2 className="w-5 h-5 text-tertiary-fixed" />
+                  Zero risk on non-attributed sales
+                </li>
+              </ul>
+            </div>
+            <div className="absolute top-0 right-0 p-8">
+              <Network className="w-32 h-32 text-on-primary/20" />
+            </div>
+          </div>
+          <div className="bg-surface-container-high rounded-xl p-8">
+            <h3 className="font-headline font-bold text-primary mb-2">Architectural Promise</h3>
+            <p className="text-on-surface-variant text-sm mb-6">Built for scale without the technical debt of legacy retention tools.</p>
+            <button className="w-full bg-surface-container-lowest border border-outline-variant/30 text-primary font-headline font-bold py-3 rounded-md hover:bg-surface-container transition-all">
+              Schedule an Architecture Review
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Comparison Table */}
+      <section className="mt-24">
+        <h2 className="text-3xl font-headline font-bold text-primary mb-12 text-center">Compare Scale Levels</h2>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-separate border-spacing-0">
+            <thead>
+              <tr className="bg-surface-container-low">
+                <th className="py-6 px-8 rounded-tl-xl text-primary font-headline font-bold text-lg">Capability</th>
+                <th className="py-6 px-8 text-primary font-headline font-bold text-lg">Mid-Market</th>
+                <th className="py-6 px-8 rounded-tr-xl text-primary font-headline font-bold text-lg">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody className="bg-surface-container-lowest">
+              <tr className="group">
+                <td className="py-6 px-8 text-on-surface-variant font-medium border-b border-outline-variant/15">Monthly Subscription</td>
+                <td className="py-6 px-8 font-bold text-primary border-b border-outline-variant/15">$300 / mo</td>
+                <td className="py-6 px-8 font-bold text-primary border-b border-outline-variant/15">Custom Scale</td>
+              </tr>
+              <tr className="group">
+                <td className="py-6 px-8 text-on-surface-variant font-medium border-b border-outline-variant/15">AI Agent Count</td>
+                <td className="py-6 px-8 text-on-surface border-b border-outline-variant/15">Up to 3 Specialized Agents</td>
+                <td className="py-6 px-8 text-on-surface border-b border-outline-variant/15">Unlimited Custom Agents</td>
+              </tr>
+              <tr className="group">
+                <td className="py-6 px-8 text-on-surface-variant font-medium border-b border-outline-variant/15">Performance Fee</td>
+                <td className="py-6 px-8 text-on-surface border-b border-outline-variant/15">2% Attributed Rev</td>
+                <td className="py-6 px-8 text-on-surface border-b border-outline-variant/15">Tiered % / Volume Based</td>
+              </tr>
+              <tr className="group">
+                <td className="py-6 px-8 text-on-surface-variant font-medium border-b border-outline-variant/15">Support Tier</td>
+                <td className="py-6 px-8 text-on-surface border-b border-outline-variant/15">Standard Email Support</td>
+                <td className="py-6 px-8 text-on-surface border-b border-outline-variant/15">24/7 Dedicated Architect</td>
+              </tr>
+              <tr className="group">
+                <td className="py-6 px-8 text-on-surface-variant font-medium rounded-bl-xl">Integration Depth</td>
+                <td className="py-6 px-8 text-on-surface">Native SaaS Connectors</td>
+                <td className="py-6 px-8 text-on-surface rounded-br-xl">Custom API / Headless / Legacy</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* Final CTA Asymmetric Layout */}
+      <section className="mt-32 grid md:grid-cols-2 items-center gap-16">
+        <div className="relative rounded-2xl overflow-hidden aspect-video shadow-2xl">
+          <img alt="Intelligence Layer Visualization" className="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0TtSFtueBbzgi8zJtR-v0sT9HzerS2RLRSZB1xCyF60jkZb-hQSU0EJIwEbOAnPFClY0M0bqbfTkz5BA14PF1DYTf66gi3lHXPmhwtCqHUTN9bg0XJp9JKYzPCDuBSvGNWp4Lp0bBXbL3Pfv7WrX9l7_D1I2sV5ucB6z2u3ZuXCWWxn_i9gQgB-sBb2xeoT48ZoyWK-hK-FB9yY2UwgVLUQmXZgD_qxpzGlSYUX7Xf6ZY6JDcQevF-Ff6zansYDqHFw9nvO9808I" referrerPolicy="no-referrer" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-primary/60 to-transparent"></div>
+        </div>
+        <div>
+          <h2 className="text-4xl font-headline font-extrabold text-primary mb-6">Ready to close the loop?</h2>
+          <p className="text-lg text-on-surface-variant mb-8 leading-relaxed">
+            Start your 30-day launch phase today. Deploy our intelligence layer and watch your retention metrics shift in real-time.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button className="bg-primary text-on-primary px-8 py-4 rounded-md font-headline font-bold text-lg hover:shadow-xl active:scale-95 transition-all">
+              Start Autonomous Retention
+            </button>
+            <button className="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-md font-headline font-bold text-lg hover:shadow-md active:scale-95 transition-all">
+              View Demo
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 function Home() {
   return (
     <main className="pt-24">
@@ -1080,7 +1811,7 @@ function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [pathname]);
 
   return null;
@@ -1094,6 +1825,10 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/platform" element={<Platform />} />
+          <Route path="/solutions" element={<Solutions />} />
+          <Route path="/case-studies" element={<CaseStudies />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/cookies" element={<CookiePolicy />} />
           <Route path="/terms" element={<TermsOfService />} />
