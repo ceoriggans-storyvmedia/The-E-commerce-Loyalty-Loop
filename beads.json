@@ -1,0 +1,18 @@
+{
+  "project_name": "The Loyalty Loop",
+  "governance": "Beads-backed",
+  "external_memory": {
+    "salesforce_to_shopify_sync": {
+      "status": "initialized",
+      "last_sync": null,
+      "notes": "Context maintained for autonomous Agentforce sync."
+    },
+    "long_horizon_tasks": [
+      {
+        "id": "task_1",
+        "description": "Implement autonomous Agentforce sync natively",
+        "status": "pending"
+      }
+    ]
+  }
+}
