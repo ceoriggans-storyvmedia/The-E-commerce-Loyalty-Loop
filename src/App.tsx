@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from './firebase';
 import {
   TrendingUp,
   Brain,
@@ -400,6 +402,27 @@ function OfferSection() {
 }
 
 function Footer() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setStatus('loading');
+    try {
+      await addDoc(collection(db, 'newsletter_subscribers'), {
+        email,
+        subscribedAt: serverTimestamp()
+      });
+      setStatus('success');
+      setEmail('');
+    } catch (error) {
+      console.error('Error subscribing to newsletter:', error);
+      setStatus('error');
+    }
+  };
+
   return (
     <footer className="bg-surface-container-lowest border-t border-outline-variant/10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-12 py-16 max-w-7xl mx-auto">
@@ -425,12 +448,36 @@ function Footer() {
           <h5 className="text-primary font-bold text-sm uppercase tracking-widest mb-2">Stay Connected</h5>
           <Link onClick={() => window.scrollTo(0, 0)} className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/contact">Contact Support</Link>
           <p className="text-on-surface-variant text-xs mb-2">Join our monthly intelligence dispatch.</p>
-          <div className="flex gap-2">
-            <input className="bg-surface-container-low border-0 text-sm px-4 py-2 rounded-lg focus:ring-2 focus:ring-primary w-full outline-none" placeholder="Email" type="email" />
-            <button className="bg-primary text-on-primary px-4 py-2 rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors">
-              <Send className="w-4 h-4" />
-            </button>
-          </div>
+          <form onSubmit={handleSubscribe} className="flex flex-col gap-2">
+            <div className="flex gap-2">
+              <input 
+                className="bg-surface-container-low border-0 text-sm px-4 py-2 rounded-lg focus:ring-2 focus:ring-primary w-full outline-none disabled:opacity-50" 
+                placeholder="Email" 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={status === 'loading' || status === 'success'}
+                required
+              />
+              <button 
+                type="submit"
+                disabled={status === 'loading' || status === 'success'}
+                className="bg-primary text-on-primary px-4 py-2 rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors disabled:opacity-50"
+              >
+                {status === 'loading' ? (
+                  <div className="w-4 h-4 border-2 border-on-primary border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
+              </button>
+            </div>
+            {status === 'success' && (
+              <p className="text-xs text-tertiary-fixed-dim font-medium">Successfully subscribed!</p>
+            )}
+            {status === 'error' && (
+              <p className="text-xs text-error font-medium">Failed to subscribe. Please try again.</p>
+            )}
+          </form>
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-12 py-8 border-t border-outline-variant/10">
