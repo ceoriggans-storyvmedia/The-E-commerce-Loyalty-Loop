@@ -204,10 +204,10 @@ function Navbar() {
           The E-commerce Loyalty Loop
         </Link>
         <div className="hidden md:flex items-center space-x-8 font-headline font-semibold tracking-tight">
-          <Link to="/platform" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/platform' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#131b2e]/60 hover:text-[#090054]'}`}>Platform</Link>
-          <Link to="/solutions" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/solutions' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#131b2e]/60 hover:text-[#090054]'}`}>Solutions</Link>
-          <Link to="/case-studies" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/case-studies' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#131b2e]/60 hover:text-[#090054]'}`}>Case Studies</Link>
-          <Link to="/pricing" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/pricing' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#131b2e]/60 hover:text-[#090054]'}`}>Pricing</Link>
+          <Link to="/platform" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/platform' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#090054] dark:text-white/80 hover:opacity-70'}`}>Platform</Link>
+          <Link to="/solutions" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/solutions' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#090054] dark:text-white/80 hover:opacity-70'}`}>Solutions</Link>
+          <Link to="/case-studies" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/case-studies' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#090054] dark:text-white/80 hover:opacity-70'}`}>Case Studies</Link>
+          <Link to="/pricing" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/pricing' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#090054] dark:text-white/80 hover:opacity-70'}`}>Pricing</Link>
         </div>
         <div className="flex items-center space-x-4">
           {user ? (
@@ -232,7 +232,7 @@ function Navbar() {
             </div>
           ) : (
             <>
-              <button onClick={login} className="text-[#131b2e]/60 font-semibold hover:opacity-80 transition-all">Log In</button>
+              <button onClick={login} className="text-[#090054] dark:text-white/80 font-semibold hover:opacity-70 transition-all">Log In</button>
               <button onClick={login} className="bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-lg font-semibold shadow-lg hover:opacity-90 transition-all scale-95 active:scale-90">
                 Get Started
               </button>
