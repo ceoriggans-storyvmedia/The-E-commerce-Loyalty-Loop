@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext, useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from './firebase';
+import { onAuthStateChanged, signInWithPopup, signOut, User as FirebaseUser } from 'firebase/auth';
+import { db, getAuthInstance, googleProvider } from './firebase';
 import {
   TrendingUp,
   Brain,
@@ -52,11 +53,149 @@ import {
   Cloud,
   ShoppingBag,
   Building2,
-  ChevronLeft
+  ChevronLeft,
+  X,
+  LogOut
 } from 'lucide-react';
+
+// --- Context for Auth ---
+interface AuthContextType {
+  user: FirebaseUser | null;
+  loading: boolean;
+  login: () => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+
+// --- Context for Signup Modal ---
+interface SignupModalContextType {
+  openSignupModal: () => void;
+  closeSignupModal: () => void;
+}
+
+const SignupModalContext = createContext<SignupModalContextType | undefined>(undefined);
+
+export const useSignupModal = () => {
+  const context = useContext(SignupModalContext);
+  if (!context) {
+    throw new Error('useSignupModal must be used within a SignupModalProvider');
+  }
+  return context;
+};
+
+function SignupModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [email, setEmail] = useState('');
+  const [company, setCompany] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  if (!isOpen) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setStatus('loading');
+    try {
+      await addDoc(collection(db, 'newsletter_subscribers'), {
+        email,
+        company,
+        subscribedAt: serverTimestamp(),
+        source: 'Deploy Agent Form'
+      });
+      setStatus('success');
+      setEmail('');
+      setCompany('');
+      setTimeout(() => {
+        onClose();
+        setStatus('idle');
+      }, 2000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setStatus('error');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-surface/80 backdrop-blur-sm">
+      <div className="bg-surface-container-lowest rounded-3xl p-8 max-w-md w-full shadow-2xl relative border border-outline-variant/20 animate-in fade-in zoom-in duration-200">
+        <button 
+          onClick={onClose}
+          className="absolute top-6 right-6 text-on-surface-variant hover:text-primary transition-colors"
+        >
+          <X className="w-6 h-6" />
+        </button>
+        
+        <div className="mb-8">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-tertiary-container text-tertiary-fixed mb-4">
+            <TrendingUp className="w-6 h-6" />
+          </div>
+          <h2 className="text-2xl font-extrabold text-primary mb-2">Deploy Your Agent</h2>
+          <p className="text-on-surface-variant">Join the waitlist to get early access to our autonomous retention platform.</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold text-primary mb-1">Work Email</label>
+            <input 
+              type="email" 
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={status === 'loading' || status === 'success'}
+              className="w-full bg-surface-container-low border-0 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary outline-none disabled:opacity-50"
+              placeholder="you@company.com"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-primary mb-1">Company Name (Optional)</label>
+            <input 
+              type="text" 
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              disabled={status === 'loading' || status === 'success'}
+              className="w-full bg-surface-container-low border-0 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary outline-none disabled:opacity-50"
+              placeholder="Acme Corp"
+            />
+          </div>
+          
+          <button 
+            type="submit"
+            disabled={status === 'loading' || status === 'success'}
+            className="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-4 rounded-xl font-bold shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 mt-6"
+          >
+            {status === 'loading' ? (
+              <div className="w-5 h-5 border-2 border-on-primary border-t-transparent rounded-full animate-spin" />
+            ) : status === 'success' ? (
+              <>
+                <CheckCircle2 className="w-5 h-5" />
+                You're on the list!
+              </>
+            ) : (
+              'Request Access'
+            )}
+          </button>
+          
+          {status === 'error' && (
+            <p className="text-sm text-error text-center mt-2">Something went wrong. Please try again.</p>
+          )}
+        </form>
+      </div>
+    </div>
+  );
+}
 
 function Navbar() {
   const { pathname } = useLocation();
+  const { user, login, logout } = useAuth();
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-[#faf8ff]/70 dark:bg-[#131b2e]/70 backdrop-blur-xl shadow-[0_24px_48px_-12px_rgba(19,27,46,0.08)]">
@@ -71,10 +210,34 @@ function Navbar() {
           <Link to="/pricing" onClick={() => window.scrollTo(0, 0)} className={`transition-all duration-300 ${pathname === '/pricing' ? 'text-[#090054] dark:text-[#ffffff] border-b-2 border-[#090054] dark:border-[#ffffff] pb-1' : 'text-[#131b2e]/60 hover:text-[#090054]'}`}>Pricing</Link>
         </div>
         <div className="flex items-center space-x-4">
-          <button className="text-[#131b2e]/60 font-semibold hover:opacity-80 transition-all">Log In</button>
-          <button className="bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-lg font-semibold shadow-lg hover:opacity-90 transition-all scale-95 active:scale-90">
-            Get Started
-          </button>
+          {user ? (
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt={user.displayName || 'User'} className="w-8 h-8 rounded-full border border-outline-variant/20" />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs">
+                    {user.displayName?.charAt(0) || user.email?.charAt(0) || 'U'}
+                  </div>
+                )}
+                <span className="text-sm font-bold text-primary hidden lg:block">{user.displayName || 'Account'}</span>
+              </div>
+              <button 
+                onClick={logout}
+                className="p-2 text-on-surface-variant hover:text-error transition-colors"
+                title="Log Out"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
+            </div>
+          ) : (
+            <>
+              <button onClick={login} className="text-[#131b2e]/60 font-semibold hover:opacity-80 transition-all">Log In</button>
+              <button onClick={login} className="bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-2.5 rounded-lg font-semibold shadow-lg hover:opacity-90 transition-all scale-95 active:scale-90">
+                Get Started
+              </button>
+            </>
+          )}
         </div>
       </div>
     </nav>
@@ -82,6 +245,8 @@ function Navbar() {
 }
 
 function Hero() {
+  const { openSignupModal } = useSignupModal();
+  
   return (
     <section className="relative overflow-hidden px-8 py-20 lg:py-32 max-w-7xl mx-auto">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -98,7 +263,7 @@ function Hero() {
             The Only Loyalty Agent That Rewards Feelings, Not Just Receipts. Most loyalty apps wait for a purchase to give a point. We use <span className="text-primary font-bold">Autonomous AI Agents</span> to monitor your customer sentiment in real-time.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="bg-gradient-to-r from-primary to-primary-container text-on-primary px-8 py-4 rounded-lg text-lg font-bold shadow-2xl hover:opacity-95 transition-all flex items-center justify-center gap-3">
+            <button onClick={openSignupModal} className="bg-gradient-to-r from-primary to-primary-container text-on-primary px-8 py-4 rounded-lg text-lg font-bold shadow-2xl hover:opacity-95 transition-all flex items-center justify-center gap-3">
               Deploy My Loyalty Agent
               <TrendingUp className="w-6 h-6" />
             </button>
@@ -296,6 +461,8 @@ function SocialProof() {
 }
 
 function OfferSection() {
+  const { openSignupModal } = useSignupModal();
+  
   return (
     <section className="py-32 px-8 bg-surface relative">
       <div className="max-w-6xl mx-auto">
@@ -386,7 +553,7 @@ function OfferSection() {
               + 2% of Recovered Revenue
             </div>
             
-            <button className="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-5 rounded-xl text-lg font-bold shadow-xl hover:scale-[1.02] transition-all mb-6">
+            <button onClick={openSignupModal} className="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary py-5 rounded-xl text-lg font-bold shadow-xl hover:scale-[1.02] transition-all mb-6">
               Claim 1 of 10 Beta Spots
             </button>
             
@@ -441,7 +608,7 @@ function Footer() {
           <h5 className="text-primary font-bold text-sm uppercase tracking-widest mb-2">Legal & Trust</h5>
           <Link onClick={() => window.scrollTo(0, 0)} className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/privacy">Privacy Policy</Link>
           <Link onClick={() => window.scrollTo(0, 0)} className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/terms">Terms of Service</Link>
-          <a className="text-on-surface-variant text-sm hover:text-primary transition-colors" href="#">Security</a>
+          <Link onClick={() => window.scrollTo(0, 0)} className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/security">Security</Link>
           <Link onClick={() => window.scrollTo(0, 0)} className="text-on-surface-variant text-sm hover:text-primary transition-colors" to="/cookies">Cookie Settings</Link>
         </div>
         <div className="flex flex-col gap-4">
@@ -484,6 +651,131 @@ function Footer() {
         <p className="text-outline text-sm">© 2024 The Loyalty Loop. All rights reserved.</p>
       </div>
     </footer>
+  );
+}
+
+function Security() {
+  return (
+    <main className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+      <header className="mb-16 relative">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high rounded-full mb-6">
+              <span className="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+              <span className="text-xs font-bold text-on-surface uppercase tracking-widest">Trust & Compliance</span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tighter text-primary mb-6">Security & Compliance</h1>
+            <p className="text-lg text-on-surface-variant leading-relaxed">
+              At <span className="font-bold text-primary">The Loyalty Loop</span>, we prioritize the security and privacy of our merchants and their customers. Our architecture implements strict PII redaction protocols to ensure compliance with global data protection regulations.
+            </p>
+          </div>
+          <div className="bg-surface-container-low p-6 rounded-xl border-l-2 border-tertiary-fixed">
+            <p className="text-xs font-semibold text-outline uppercase tracking-widest mb-1">Status</p>
+            <p className="text-lg font-bold text-primary">Enterprise-Grade</p>
+          </div>
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <aside className="lg:col-span-3">
+          <div className="sticky top-32 space-y-4">
+            <h4 className="text-xs font-bold text-outline uppercase tracking-widest mb-6">Security Pillars</h4>
+            <nav className="flex flex-col gap-1">
+              <a className="px-4 py-3 rounded-lg bg-surface-container-low text-primary font-bold border-l-2 border-primary transition-all" href="#pii">PII Redaction</a>
+              <a className="px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all font-medium" href="#infra">Infrastructure</a>
+              <a className="px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all font-medium" href="#access">Access & Governance</a>
+              <a className="px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low transition-all font-medium" href="#reporting">Reporting</a>
+            </nav>
+          </div>
+        </aside>
+
+        <div className="lg:col-span-9 space-y-16">
+          <section id="pii" className="scroll-mt-32">
+            <h2 className="text-3xl font-bold text-primary mb-8 flex items-center gap-4">
+              <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary-container text-primary text-base font-bold">01</span>
+              PII Redaction Protocols
+            </h2>
+            <div className="prose prose-slate max-w-none text-on-surface-variant space-y-6">
+              <div className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/10">
+                <h3 className="text-xl font-bold text-primary mb-4">Data Masking at Ingestion</h3>
+                <p className="leading-relaxed">
+                  All Personally Identifiable Information (including names, email addresses, phone numbers, and physical addresses) is automatically masked or tokenized at the ingestion layer before entering our core agentic loops.
+                </p>
+              </div>
+              <div className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/10">
+                <h3 className="text-xl font-bold text-primary mb-4">Zero-Retention Inference</h3>
+                <p className="leading-relaxed">
+                  Our AI models process customer sentiment and behavioral heuristics entirely in memory. PII is never stored in model weights, training logs, or prompt histories.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id="infra" className="scroll-mt-32">
+            <h2 className="text-3xl font-bold text-primary mb-8 flex items-center gap-4">
+              <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary-container text-primary text-base font-bold">02</span>
+              Infrastructure Security
+            </h2>
+            <div className="prose prose-slate max-w-none text-on-surface-variant space-y-6">
+              <div className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/10">
+                <h3 className="text-xl font-bold text-primary mb-4">In-Transit & At-Rest Encryption</h3>
+                <p className="leading-relaxed">
+                  All data is encrypted in transit using TLS 1.3 and at rest utilizing AES-256 encryption within our Google Cloud Platform (GCP) environment.
+                </p>
+              </div>
+              <div className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/10">
+                <h3 className="text-xl font-bold text-primary mb-4">VPC Service Controls</h3>
+                <p className="leading-relaxed">
+                  Our backend services run within isolated Virtual Private Clouds (VPCs) to mitigate data exfiltration risks.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id="access" className="scroll-mt-32">
+            <h2 className="text-3xl font-bold text-primary mb-8 flex items-center gap-4">
+              <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary-container text-primary text-base font-bold">03</span>
+              Access & Governance
+            </h2>
+            <div className="prose prose-slate max-w-none text-on-surface-variant space-y-6">
+              <div className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/10">
+                <h3 className="text-xl font-bold text-primary mb-4">Role-Based Access Control (RBAC)</h3>
+                <p className="leading-relaxed">
+                  Access to unmasked data is strictly limited to authorized personnel and requires multi-factor authentication (MFA).
+                </p>
+              </div>
+              <div className="bg-surface-container-low p-8 rounded-2xl border border-outline-variant/10">
+                <h3 className="text-xl font-bold text-primary mb-4">Audit Logging</h3>
+                <p className="leading-relaxed">
+                  All access to sensitive data and system configurations is logged, immutable, and actively monitored for anomalous behavior using GCP Cloud Audit Logs.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id="reporting" className="scroll-mt-32">
+            <h2 className="text-3xl font-bold text-primary mb-8 flex items-center gap-4">
+              <span className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary-container text-primary text-base font-bold">04</span>
+              Incident Response
+            </h2>
+            <div className="bg-error-container/10 p-8 rounded-2xl border border-error/20">
+              <p className="text-on-surface-variant leading-relaxed mb-6">
+                We maintain a 24/7/365 incident response team. If you discover a security vulnerability or have concerns regarding our PII handling, please contact us immediately.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a href="mailto:security@theloyaltyloop.com" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-xl font-bold hover:opacity-90 transition-all">
+                  <Mail className="w-5 h-5" />
+                  security@theloyaltyloop.com
+                </a>
+              </div>
+              <p className="text-xs text-on-surface-variant mt-6 italic">
+                *Critical vulnerabilities reported by enterprise partners are guaranteed a response within 4 hours.
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
   );
 }
 
@@ -1670,6 +1962,8 @@ function CaseStudies() {
 }
 
 function Pricing() {
+  const { openSignupModal } = useSignupModal();
+  
   return (
     <main className="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
       {/* Hero Section */}
@@ -1829,7 +2123,7 @@ function Pricing() {
             Start your 30-day launch phase today. Deploy our intelligence layer and watch your retention metrics shift in real-time.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="bg-primary text-on-primary px-8 py-4 rounded-md font-headline font-bold text-lg hover:shadow-xl active:scale-95 transition-all">
+            <button onClick={openSignupModal} className="bg-primary text-on-primary px-8 py-4 rounded-md font-headline font-bold text-lg hover:shadow-xl active:scale-95 transition-all">
               Start Autonomous Retention
             </button>
             <button className="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-md font-headline font-bold text-lg hover:shadow-md active:scale-95 transition-all">
@@ -1865,24 +2159,64 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuthInstance();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const login = async () => {
+    try {
+      const auth = getAuthInstance();
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const auth = getAuthInstance();
+      await signOut(auth);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
+  const openSignupModal = () => setIsSignupModalOpen(true);
+  const closeSignupModal = () => setIsSignupModalOpen(false);
+
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <div className="bg-surface text-on-surface antialiased min-h-screen">
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/platform" element={<Platform />} />
-          <Route path="/solutions" element={<Solutions />} />
-          <Route path="/case-studies" element={<CaseStudies />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/cookies" element={<CookiePolicy />} />
-          <Route path="/terms" element={<TermsOfService />} />
-          <Route path="/contact" element={<ContactSupport />} />
-        </Routes>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
+      <SignupModalContext.Provider value={{ openSignupModal, closeSignupModal }}>
+        <BrowserRouter>
+          <ScrollToTop />
+          <div className="bg-surface text-on-surface antialiased min-h-screen">
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/platform" element={<Platform />} />
+              <Route path="/solutions" element={<Solutions />} />
+              <Route path="/case-studies" element={<CaseStudies />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/security" element={<Security />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/cookies" element={<CookiePolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/contact" element={<ContactSupport />} />
+            </Routes>
+            <Footer />
+            <SignupModal isOpen={isSignupModalOpen} onClose={closeSignupModal} />
+          </div>
+        </BrowserRouter>
+      </SignupModalContext.Provider>
+    </AuthContext.Provider>
   );
 }
